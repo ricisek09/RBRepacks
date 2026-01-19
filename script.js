@@ -1,13 +1,9 @@
-// Main script for RBRepacks
-
-let allGames = [];
-let filteredGames = [];
-
+// RBRepacks - Main Script
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
+    // Elements
     const gamesContainer = document.getElementById('gamesContainer');
     const loadingElement = document.getElementById('loading');
-    const noResultsElement = document.getElementById('noResults');
+    const noGamesElement = document.getElementById('noGames');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const genreFilter = document.getElementById('genreFilter');
@@ -15,29 +11,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalGamesElement = document.getElementById('totalGames');
     const totalSizeElement = document.getElementById('totalSize');
     const lastUpdatedElement = document.getElementById('lastUpdated');
+    
+    let allGames = [];
+    let filteredGames = [];
 
-    // Load games data
+    // Load games from localStorage or games.json
     async function loadGames() {
         try {
-            const response = await fetch('data/games.json');
-            const data = await response.json();
-            allGames = data.games;
+            // First try localStorage (from admin panel)
+            const localGames = localStorage.getItem('rb_games');
+            
+            if (localGames) {
+                allGames = JSON.parse(localGames);
+                console.log('Loaded from localStorage:', allGames.length, 'games');
+            } else {
+                // Fallback to games.json
+                const response = await fetch('games.json');
+                const data = await response.json();
+                allGames = data.games || [];
+                console.log('Loaded from games.json:', allGames.length, 'games');
+            }
+            
             filteredGames = [...allGames];
-            
-            // Update stats
             updateStats();
-            
-            // Display games
             displayGames();
             
             // Hide loading
             loadingElement.style.display = 'none';
             
-            // Initialize filters
-            populateGenreFilter();
+            // Show/hide no games message
+            if (allGames.length === 0) {
+                noGamesElement.style.display = 'block';
+            } else {
+                noGamesElement.style.display = 'none';
+            }
+            
         } catch (error) {
             console.error('Error loading games:', error);
-            loadingElement.innerHTML = '<p>Error loading games. Please try again later.</p>';
+            loadingElement.innerHTML = '<p>Error loading games.</p>';
         }
     }
 
@@ -46,53 +57,29 @@ document.addEventListener('DOMContentLoaded', function() {
         totalGamesElement.textContent = allGames.length;
         
         // Calculate total size
-        const totalSize = allGames.reduce((sum, game) => {
-            const sizeNum = parseFloat(game.size);
-            return isNaN(sizeNum) ? sum : sum + sizeNum;
-        }, 0);
-        totalSizeElement.textContent = `${totalSize.toFixed(1)} GB`;
-        
-        // Get last updated date
-        if (allGames.length > 0) {
-            const latestDate = allGames.reduce((latest, game) => {
-                const gameDate = new Date(game.repackDate || game.releaseDate);
-                return gameDate > latest ? gameDate : latest;
-            }, new Date(0));
-            lastUpdatedElement.textContent = latestDate.toLocaleDateString();
-        }
-    }
-
-    // Populate genre filter
-    function populateGenreFilter() {
-        const genres = new Set();
+        let totalSizeGB = 0;
         allGames.forEach(game => {
-            if (game.genre) {
-                game.genre.forEach(g => genres.add(g));
+            const sizeText = game.size || '0 GB';
+            const sizeNum = parseFloat(sizeText);
+            if (!isNaN(sizeNum)) {
+                totalSizeGB += sizeNum;
             }
         });
+        totalSizeElement.textContent = totalSizeGB.toFixed(1) + ' GB';
         
-        // Sort genres alphabetically
-        const sortedGenres = Array.from(genres).sort();
-        
-        // Add to filter (keeping the "All Genres" option)
-        sortedGenres.forEach(genre => {
-            const option = document.createElement('option');
-            option.value = genre;
-            option.textContent = genre;
-            genreFilter.appendChild(option);
-        });
+        // Last updated
+        if (allGames.length > 0) {
+            const dates = allGames.map(g => g.repackDate || g.releaseDate).filter(d => d);
+            if (dates.length > 0) {
+                const latest = dates.sort().reverse()[0];
+                lastUpdatedElement.textContent = latest;
+            }
+        }
     }
 
     // Display games
     function displayGames() {
         gamesContainer.innerHTML = '';
-        
-        if (filteredGames.length === 0) {
-            noResultsElement.style.display = 'block';
-            return;
-        }
-        
-        noResultsElement.style.display = 'none';
         
         filteredGames.forEach(game => {
             const gameCard = createGameCard(game);
@@ -100,61 +87,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Create game card HTML
+    // Create game card
     function createGameCard(game) {
         const card = document.createElement('div');
         card.className = 'game-card';
         
-        // Create star rating HTML
-        const stars = createStarRating(game.rating);
+        // Star rating
+        const rating = game.rating || 0;
+        const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
         
-        // Format download buttons based on available links
-        let downloadButtons = '';
+        // Download links
+        let downloadBtn = '';
         if (game.downloadLinks) {
             if (game.downloadLinks.direct) {
-                downloadButtons += `<a href="${game.downloadLinks.direct}" class="btn btn-download" target="_blank">Direct</a>`;
+                downloadBtn = `<a href="${game.downloadLinks.direct}" class="btn btn-download" target="_blank">DOWNLOAD</a>`;
+            } else if (game.downloadLinks.magnet) {
+                downloadBtn = `<a href="${game.downloadLinks.magnet}" class="btn btn-download">MAGNET</a>`;
+            } else if (game.downloadLinks.torrent) {
+                downloadBtn = `<a href="${game.downloadLinks.torrent}" class="btn btn-download">TORRENT</a>`;
             }
-            if (game.downloadLinks.magnet) {
-                downloadButtons += `<a href="${game.downloadLinks.magnet}" class="btn btn-download">Magnet</a>`;
-            }
-            if (game.downloadLinks.torrent) {
-                downloadButtons += `<a href="${game.downloadLinks.torrent}" class="btn btn-download">Torrent</a>`;
-            }
+        }
+        
+        if (!downloadBtn) {
+            downloadBtn = '<button class="btn btn-download">DOWNLOAD</button>';
         }
         
         card.innerHTML = `
             <div class="game-image">
-                <img src="${game.imageUrl}" alt="${game.title}" onerror="this.src='https://via.placeholder.com/300x180/1a1a1a/8a2be2?text=${encodeURIComponent(game.title)}'">
+                <img src="${game.imageUrl || 'https://via.placeholder.com/400x200/1a1a1a/8a2be2?text=' + encodeURIComponent(game.title)}" 
+                     alt="${game.title}"
+                     onerror="this.src='https://via.placeholder.com/400x200/1a1a1a/8a2be2?text=GAME'">
             </div>
             <div class="game-content">
                 <h3 class="game-title">${game.title}</h3>
                 <div class="game-meta">
                     <span>${game.repacker || 'Unknown'}</span>
-                    <span>v${game.version || '1.0'}</span>
+                    <span>${game.version || 'v1.0'}</span>
                     <span>${game.size || 'N/A'}</span>
                 </div>
                 <p class="game-description">${game.description || 'No description available.'}</p>
                 <div class="game-details">
                     <div>
-                        <span>Release Date</span>
+                        <span class="label">Release</span>
                         <span>${game.releaseDate || 'Unknown'}</span>
                     </div>
                     <div>
-                        <span>Repack Date</span>
+                        <span class="label">Repack Date</span>
                         <span>${game.repackDate || 'Unknown'}</span>
                     </div>
                     <div>
-                        <span>Genre</span>
-                        <span>${game.genre ? game.genre.join(', ') : 'N/A'}</span>
+                        <span class="label">Genre</span>
+                        <span>${(game.genre || []).join(', ') || 'N/A'}</span>
                     </div>
                     <div>
-                        <span>Rating</span>
-                        <span class="rating">${stars} ${game.rating || 'N/A'}</span>
+                        <span class="label">Rating</span>
+                        <span class="rating">${stars} ${rating}/5</span>
                     </div>
                 </div>
                 <div class="buttons">
-                    ${downloadButtons || '<a href="#" class="btn btn-download">Download</a>'}
-                    <button class="btn btn-details" onclick="showGameDetails(${game.id})">Details</button>
+                    ${downloadBtn}
+                    <button class="btn btn-details" onclick="showGameInfo(${game.id})">INFO</button>
                 </div>
             </div>
         `;
@@ -162,50 +154,30 @@ document.addEventListener('DOMContentLoaded', function() {
         return card;
     }
 
-    // Create star rating
-    function createStarRating(rating) {
-        if (!rating) return '';
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5;
-        
-        let stars = '';
-        for (let i = 0; i < 5; i++) {
-            if (i < fullStars) {
-                stars += '<i class="fas fa-star"></i>';
-            } else if (i === fullStars && halfStar) {
-                stars += '<i class="fas fa-star-half-alt"></i>';
-            } else {
-                stars += '<i class="far fa-star"></i>';
-            }
-        }
-        return stars;
-    }
-
-    // Filter games based on search and filters
+    // Filter games
     function filterGames() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedGenre = genreFilter.value;
         const sortBy = sortFilter.value;
         
         filteredGames = allGames.filter(game => {
-            // Search filter
+            // Search
             const matchesSearch = 
                 game.title.toLowerCase().includes(searchTerm) ||
                 (game.description && game.description.toLowerCase().includes(searchTerm)) ||
-                (game.repacker && game.repacker.toLowerCase().includes(searchTerm)) ||
-                (game.genre && game.genre.some(g => g.toLowerCase().includes(searchTerm)));
+                (game.repacker && game.repacker.toLowerCase().includes(searchTerm));
             
-            // Genre filter
+            // Genre
             const matchesGenre = !selectedGenre || 
                 (game.genre && game.genre.includes(selectedGenre));
             
             return matchesSearch && matchesGenre;
         });
         
-        // Sort games
+        // Sort
         sortGames(sortBy);
         
-        // Display filtered games
+        // Display
         displayGames();
     }
 
@@ -213,10 +185,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function sortGames(sortBy) {
         switch(sortBy) {
             case 'newest':
-                filteredGames.sort((a, b) => new Date(b.repackDate || b.releaseDate) - new Date(a.repackDate || a.releaseDate));
+                filteredGames.sort((a, b) => (b.repackDate || '').localeCompare(a.repackDate || ''));
                 break;
             case 'oldest':
-                filteredGames.sort((a, b) => new Date(a.repackDate || a.releaseDate) - new Date(b.repackDate || b.releaseDate));
+                filteredGames.sort((a, b) => (a.repackDate || '').localeCompare(b.repackDate || ''));
                 break;
             case 'rating':
                 filteredGames.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -224,39 +196,35 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'title':
                 filteredGames.sort((a, b) => a.title.localeCompare(b.title));
                 break;
-            default:
-                filteredGames.sort((a, b) => new Date(b.repackDate || b.releaseDate) - new Date(a.repackDate || a.releaseDate));
         }
     }
 
-    // Show game details (modal would be better, but keeping it simple)
-    window.showGameDetails = function(gameId) {
+    // Show game info
+    window.showGameInfo = function(gameId) {
         const game = allGames.find(g => g.id === gameId);
         if (!game) return;
         
-        // Create a simple alert with details
-        let details = `Title: ${game.title}\n`;
-        details += `Repacker: ${game.repacker || 'Unknown'}\n`;
-        details += `Version: ${game.version || 'N/A'}\n`;
-        details += `Size: ${game.size || 'N/A'}\n`;
-        details += `Original Size: ${game.originalSize || 'N/A'}\n`;
-        details += `Release Date: ${game.releaseDate || 'Unknown'}\n`;
-        details += `Repack Date: ${game.repackDate || 'Unknown'}\n`;
-        details += `Genre: ${game.genre ? game.genre.join(', ') : 'N/A'}\n`;
-        details += `Languages: ${game.language ? game.language.join(', ') : 'N/A'}\n`;
-        details += `Rating: ${game.rating || 'N/A'}/5\n`;
+        let info = `=== ${game.title} ===\n\n`;
+        info += `Repacker: ${game.repacker || 'Unknown'}\n`;
+        info += `Version: ${game.version || 'N/A'}\n`;
+        info += `Size: ${game.size || 'N/A'}\n`;
+        info += `Original Release: ${game.releaseDate || 'Unknown'}\n`;
+        info += `Repack Date: ${game.repackDate || 'Unknown'}\n`;
+        info += `Genre: ${(game.genre || []).join(', ') || 'N/A'}\n`;
+        info += `Rating: ${game.rating || 'N/A'}/5\n\n`;
+        info += `Description:\n${game.description || 'No description'}\n\n`;
         
-        if (game.systemRequirements) {
-            details += '\nSystem Requirements:\n';
-            Object.entries(game.systemRequirements).forEach(([key, value]) => {
-                details += `${key}: ${value}\n`;
-            });
+        if (game.downloadLinks) {
+            info += `Download Links:\n`;
+            if (game.downloadLinks.direct) info += `• Direct: ${game.downloadLinks.direct}\n`;
+            if (game.downloadLinks.magnet) info += `• Magnet: ${game.downloadLinks.magnet}\n`;
+            if (game.downloadLinks.torrent) info += `• Torrent: ${game.downloadLinks.torrent}\n`;
         }
         
-        alert(details);
+        alert(info);
     }
 
-    // Event Listeners
+    // Event listeners
     searchBtn.addEventListener('click', filterGames);
     searchInput.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') filterGames();
@@ -264,6 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
     genreFilter.addEventListener('change', filterGames);
     sortFilter.addEventListener('change', filterGames);
 
-    // Initialize
+    // Initial load
     loadGames();
 });
