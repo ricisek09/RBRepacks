@@ -1,74 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-    .login-screen {
-        display: none;
-        text-align: center;
-        padding: 50px 20px;
-    }
-    
-    .password-input {
-        background: var(--card-bg);
-        border: 2px solid var(--border-color);
-        color: var(--text-primary);
-        padding: 15px;
-        border-radius: 10px;
-        width: 300px;
-        max-width: 100%;
-        margin: 20px auto;
-        display: block;
-        font-size: 1.1rem;
-    }
-    
-    .login-error {
-        color: #ff3333;
-        margin-top: 10px;
-        display: none;
-    }
-</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RBRepacks Admin - Add Game</title>
+    <title>RBRepacks Admin</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .admin-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
+        .admin-wrapper {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
+            padding: 20px;
         }
         
-        .admin-title {
+        .admin-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #8a2be2;
+            box-shadow: 0 20px 50px rgba(138, 43, 226, 0.3);
+        }
+        
+        .admin-header {
             text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .admin-header h1 {
+            color: #8a2be2;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .admin-header p {
+            color: #b0b0b0;
+        }
+        
+        .form-section {
             margin-bottom: 30px;
-            color: var(--accent-purple);
+        }
+        
+        .form-section h3 {
+            color: #9d4edd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d2d2d;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            flex: 1;
         }
         
         .form-group label {
             display: block;
+            color: #ffffff;
             margin-bottom: 8px;
-            color: var(--text-secondary);
-            font-weight: 600;
+            font-weight: bold;
         }
         
-        .form-group input, 
+        .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            background-color: var(--secondary-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
+            padding: 15px;
+            background: #121212;
+            border: 2px solid #2d2d2d;
+            border-radius: 10px;
+            color: #ffffff;
             font-size: 1rem;
+            transition: 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #8a2be2;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
         }
         
         .form-group textarea {
@@ -76,207 +92,269 @@
             resize: vertical;
         }
         
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent-purple);
+        .required::after {
+            content: " *";
+            color: #ff3333;
         }
         
-        .form-row {
-            display: flex;
-            gap: 20px;
+        .tag-manager {
+            background: #121212;
+            border: 2px solid #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
         }
         
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        .tag-input {
+        .tag-input-row {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
-        .tag-input input {
+        .tag-input-row input {
             flex: 1;
+            padding: 12px;
+            background: #0a0a0a;
+            border: 2px solid #2d2d2d;
+            border-radius: 8px;
+            color: white;
         }
         
         .tags-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 10px;
+            min-height: 50px;
         }
         
         .tag {
-            background-color: rgba(138, 43, 226, 0.2);
-            color: var(--accent-light-purple);
-            padding: 5px 12px;
+            background: rgba(138, 43, 226, 0.3);
+            color: #9d4edd;
+            padding: 8px 15px;
             border-radius: 20px;
-            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            font-weight: bold;
         }
         
-        .tag i {
+        .tag-remove {
             cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        .btn-admin {
-            background: linear-gradient(45deg, var(--accent-purple), var(--accent-light-purple));
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: transform 0.3s;
-        }
-        
-        .btn-admin:hover {
-            transform: translateY(-3px);
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: var(--accent-purple);
-            text-decoration: none;
+            color: #ff3333;
+            font-size: 1.2rem;
         }
         
         .message {
             padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
             text-align: center;
+            font-weight: bold;
             display: none;
         }
         
-        .success {
-            background-color: rgba(0, 204, 102, 0.1);
-            color: var(--success);
-            border: 1px solid var(--success);
+        .message.success {
+            background: rgba(0, 204, 102, 0.1);
+            color: #00cc66;
+            border: 2px solid #00cc66;
         }
         
-        .error {
-            background-color: rgba(255, 51, 51, 0.1);
+        .message.error {
+            background: rgba(255, 51, 51, 0.1);
             color: #ff3333;
-            border: 1px solid #ff3333;
+            border: 2px solid #ff3333;
+        }
+        
+        .buttons-row {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .btn-submit {
+            flex: 2;
+            background: linear-gradient(45deg, #8a2be2, #9d4edd);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-back {
+            flex: 1;
+            background: #2d2d2d;
+            color: white;
+            border: 2px solid #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-back:hover {
+            border-color: #8a2be2;
+            color: #8a2be2;
+        }
+        
+        .tip {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1><span class="logo-accent">RB</span>Repacks Admin</h1>
-                <p class="tagline">Add new game to collection</p>
-            </div>
-            <a href="index.html" class="admin-link">
-                <i class="fas fa-arrow-left"></i> Back to Main
-            </a>
-        </div>
-    </header>
-
-    <main class="container">
+    <div class="admin-wrapper">
         <div class="admin-container">
-            <h2 class="admin-title">Add New Game</h2>
+            <!-- HEADER -->
+            <div class="admin-header">
+                <h1><i class="fas fa-plus-circle"></i> Add New Game</h1>
+                <p>Fill the form below to add a game to RBRepacks</p>
+            </div>
             
+            <!-- MESSAGE -->
             <div id="message" class="message"></div>
             
+            <!-- FORM -->
             <form id="gameForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="title"><i class="fas fa-gamepad"></i> Game Title *</label>
-                        <input type="text" id="title" required>
+                <!-- BASIC INFO -->
+                <div class="form-section">
+                    <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Game Title</label>
+                            <input type="text" id="title" required placeholder="Cyberpunk 2077">
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Repacker Name</label>
+                            <input type="text" id="repacker" required placeholder="FitGirl, DODI, etc.">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="repacker"><i class="fas fa-user"></i> Repacker *</label>
-                        <input type="text" id="repacker" required>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Version</label>
+                            <input type="text" id="version" required placeholder="1.5 + DLC">
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Size (GB)</label>
+                            <input type="text" id="size" required placeholder="57.8">
+                            <div class="tip">Just the number, "GB" will be added automatically</div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="version"><i class="fas fa-code-branch"></i> Version</label>
-                        <input type="text" id="version" placeholder="e.g., 1.0 + DLC">
-                    </div>
-                    <div class="form-group">
-                        <label for="size"><i class="fas fa-hdd"></i> Size (GB) *</label>
-                        <input type="text" id="size" required placeholder="e.g., 57.8">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="releaseDate"><i class="fas fa-calendar"></i> Original Release Date</label>
-                        <input type="date" id="releaseDate">
-                    </div>
-                    <div class="form-group">
-                        <label for="repackDate"><i class="fas fa-calendar-alt"></i> Repack Date</label>
-                        <input type="date" id="repackDate">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="imageUrl"><i class="fas fa-image"></i> Cover Image URL *</label>
-                    <input type="url" id="imageUrl" required placeholder="https://example.com/game-cover.jpg">
-                </div>
-                
-                <div class="form-group">
-                    <label for="description"><i class="fas fa-align-left"></i> Description</label>
-                    <textarea id="description" placeholder="Brief description of the game..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-tags"></i> Genres</label>
-                    <div class="tag-input">
-                        <input type="text" id="genreInput" placeholder="Add genre (press Enter)">
-                        <button type="button" id="addGenre" class="btn btn-details">Add</button>
-                    </div>
-                    <div id="genresContainer" class="tags-container"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="rating"><i class="fas fa-star"></i> Rating (0-5)</label>
-                    <input type="number" id="rating" min="0" max="5" step="0.1" placeholder="4.5">
-                </div>
-                
-                <h3 style="color: var(--accent-purple); margin: 30px 0 15px;">Download Links</h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="directLink"><i class="fas fa-download"></i> Direct Link</label>
-                        <input type="url" id="directLink" placeholder="https://example.com/download">
-                    </div>
-                    <div class="form-group">
-                        <label for="magnetLink"><i class="fas fa-magnet"></i> Magnet Link</label>
-                        <input type="url" id="magnetLink" placeholder="magnet:?xt=urn:btih:...">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Original Release Date</label>
+                            <input type="date" id="releaseDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Repack Date</label>
+                            <input type="date" id="repackDate" value="">
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="torrentLink"><i class="fas fa-file-torrent"></i> Torrent Link</label>
-                    <input type="url" id="torrentLink" placeholder="https://example.com/torrent">
+                <!-- DESCRIPTION & IMAGE -->
+                <div class="form-section">
+                    <h3><i class="fas fa-align-left"></i> Description & Media</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Cover Image URL</label>
+                            <input type="url" id="imageUrl" required placeholder="https://example.com/game-cover.jpg">
+                            <div class="tip">Find game covers on Google Images or Steam</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Game Description</label>
+                            <textarea id="description" placeholder="Brief description of the game..."></textarea>
+                        </div>
+                    </div>
                 </div>
                 
-                <button type="submit" class="btn-admin">
-                    <i class="fas fa-plus"></i> Add Game to Collection
-                </button>
-            </form>
-            
-            <a href="index.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Return to main page
-            </a>
-        </div>
-    </main>
-
-    <script src="admin.js"></script>
-</body>
-</html>
+                <!-- GENRES -->
+                <div class="form-section">
+                    <h3><i class="fas fa-tags"></i> Genres</h3>
+                    
+                    <div class="tag-manager">
+                        <div class="tag-input-row">
+                            <input type="text" id="genreInput" placeholder="Add genre (Action, RPG, etc.)">
+                            <button type="button" id="addGenreBtn" class="btn btn-download">Add</button>
+                        </div>
+                        <div id="genresContainer" class="tags-container">
+                            <!-- Tags appear here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RATING -->
+                <div class="form-section">
+                    <h3><i class="fas fa-star"></i> Rating & Details</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Rating (0-5)</label>
+                            <select id="rating">
+                                <option value="5">★★★★★ (5/5)</option>
+                                <option value="4.5">★★★★½ (4.5/5)</option>
+                                <option value="4" selected>★★★★☆ (4/5)</option>
+                                <option value="3.5">★★★½☆ (3.5/5)</option>
+                                <option value="3">★★★☆☆ (3/5)</option>
+                                <option value="2.5">★★½☆☆ (2.5/5)</option>
+                                <option value="2">★★☆☆☆ (2/5)</option>
+                                <option value="1.5">★½☆☆☆ (1.5/5)</option>
+                                <option value="1">★☆☆☆☆ (1/5)</option>
+                                <option value="0.5">½☆☆☆☆ (0.5/5)</option>
+                                <option value="0">☆☆☆☆☆ (0/5)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DOWNLOAD LINKS -->
+                <div class="form-section">
+                    <h3><i class="fas fa-download"></i> Download Links</h3>
+                    <div class="tip">Add at least one download link</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Direct Download URL</label>
+                            <input type="url" id="directLink" placeholder="https://mega.nz/file/...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Magnet Link</label>
+                            <input type="text" id="magnetLink" placeholder="magnet:?xt=urn:btih:...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Torrent URL</label>
+                            <input type="url" id="torrentLink" placeholder="https://example.com/file.torrent">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BUTTONS -->
+                <div class="buttons-row">
+                    <
