@@ -1,5 +1,7 @@
+// ZMĚŇ CELÝ admin.js na tohle:
+
 // RBRepacks Admin Script
-const ADMIN_PASSWORD = "admin123"; // ZMĚŇ SI HESLO!
+const ADMIN_PASSWORD = "admin123";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Password elements
@@ -42,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize admin panel
     function initAdminPanel() {
+        console.log("Admin panel initialized");
+        
         // Tab switching
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -49,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tabBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const tabId = this.getAttribute('data-tab');
+                console.log("Switching to tab:", tabId);
                 
                 // Update buttons
                 tabBtns.forEach(b => b.classList.remove('active'));
@@ -64,13 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('repackDate').value = today;
         
-        // Current games storage
+        // Load existing games
         let currentGames = loadGamesFromStorage();
+        console.log("Loaded games from storage:", currentGames.length);
+        
         let currentGenres = [];
         
-        // Load existing games if any
+        // Show message if games exist
         if (currentGames.length > 0) {
-            showMessage(`Loaded ${currentGames.length} games from storage`, 'success');
+            showMessage(`Loaded ${currentGames.length} games from storage`, 'success', 'message');
         }
         
         // Add Game Form
@@ -103,13 +110,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 tag.className = 'tag';
                 tag.innerHTML = `
                     ${genre}
-                    <button type="button" onclick="removeGenreAt(${index})" style="background: none; border: none; color: #ff3333; cursor: pointer;">×</button>
+                    <button type="button" onclick="removeGenreAt(${index})" style="background: none; border: none; color: #ff3333; cursor: pointer; font-size: 1.2rem;">×</button>
                 `;
                 genresContainer.appendChild(tag);
             });
         }
         
-        window.removeGenreAt = removeGenre;
+        // Make removeGenre available globally
+        window.removeGenreAt = function(index) {
+            currentGenres.splice(index, 1);
+            updateGenresDisplay();
+        };
         
         addGenreBtn.addEventListener('click', addGenre);
         genreInput.addEventListener('keypress', function(e) {
@@ -119,12 +130,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Form submission
+        // Form submission - DŮLEŽITÁ ČÁST!
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log("Form submitted");
             
+            // Get form values
             const gameData = {
-                id: Date.now(),
+                id: Date.now(), // Unique ID
                 title: document.getElementById('title').value.trim(),
                 repacker: document.getElementById('repacker').value.trim(),
                 version: document.getElementById('version').value.trim(),
@@ -142,17 +155,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             };
             
+            console.log("Game data:", gameData);
+            
+            // Validation
             if (!gameData.title || !gameData.repacker || !gameData.imageUrl) {
-                showMessage('Please fill required fields', 'error');
+                showMessage('Please fill required fields (Title, Repacker, Image URL)', 'error', 'message');
                 return;
             }
             
-            // Add to games
+            // Add to games array
             currentGames.push(gameData);
+            console.log("Total games after add:", currentGames.length);
+            
+            // Save to localStorage
             saveGamesToStorage(currentGames);
             
-            // Success
-            showMessage(`Game "${gameData.title}" added! Total: ${currentGames.length}`, 'success');
+            // Show success message
+            showMessage(`✅ Game "${gameData.title}" added successfully! Total games: ${currentGames.length}`, 'success', 'message');
             
             // Reset form
             form.reset();
@@ -160,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateGenresDisplay();
             document.getElementById('repackDate').value = today;
             
-            // Auto-hide message
+            // Auto-hide message after 3 seconds
             setTimeout(() => {
                 messageElement.style.display = 'none';
             }, 3000);
@@ -173,6 +192,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const exportMessage = document.getElementById('exportMessage');
         
         generateJsonBtn.addEventListener('click', function() {
+            console.log("Generating JSON...");
+            
+            // Reload games from storage to be sure
+            currentGames = loadGamesFromStorage();
+            console.log("Games for export:", currentGames);
+            
             const gamesData = {
                 games: currentGames
             };
@@ -180,29 +205,38 @@ document.addEventListener('DOMContentLoaded', function() {
             const jsonString = JSON.stringify(gamesData, null, 2);
             jsonOutput.textContent = jsonString;
             
-            exportMessage.textContent = `Generated JSON for ${currentGames.length} games`;
+            exportMessage.textContent = `✅ Generated JSON for ${currentGames.length} games`;
             exportMessage.className = 'message success';
             exportMessage.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                exportMessage.style.display = 'none';
+            }, 5000);
         });
         
         copyJsonBtn.addEventListener('click', function() {
             const text = jsonOutput.textContent;
-            if (!text || text === '{/* JSON will appear here */}') {
-                exportMessage.textContent = 'Generate JSON first!';
+            if (!text || text.includes('JSON will appear here')) {
+                exportMessage.textContent = '⚠️ Please generate JSON first!';
                 exportMessage.className = 'message error';
                 exportMessage.style.display = 'block';
                 return;
             }
             
             navigator.clipboard.writeText(text).then(() => {
-                exportMessage.textContent = 'JSON copied to clipboard!';
+                exportMessage.textContent = '✅ JSON copied to clipboard!';
                 exportMessage.className = 'message success';
                 exportMessage.style.display = 'block';
             }).catch(err => {
-                exportMessage.textContent = 'Failed to copy: ' + err;
+                exportMessage.textContent = '❌ Failed to copy: ' + err;
                 exportMessage.className = 'message error';
                 exportMessage.style.display = 'block';
             });
+            
+            setTimeout(() => {
+                exportMessage.style.display = 'none';
+            }, 3000);
         });
         
         // Import functions
@@ -215,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const jsonText = importJsonInput.value.trim();
                 if (!jsonText) {
-                    importMessage.textContent = 'Please paste JSON';
+                    importMessage.textContent = '⚠️ Please paste JSON';
                     importMessage.className = 'message error';
                     importMessage.style.display = 'block';
                     return;
@@ -223,30 +257,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const data = JSON.parse(jsonText);
                 if (!data.games || !Array.isArray(data.games)) {
-                    throw new Error('Invalid JSON format');
+                    throw new Error('Invalid JSON format - missing "games" array');
                 }
                 
                 currentGames = data.games;
                 saveGamesToStorage(currentGames);
                 
-                importMessage.textContent = `Imported ${currentGames.length} games successfully!`;
+                importMessage.textContent = `✅ Imported ${currentGames.length} games successfully!`;
                 importMessage.className = 'message success';
                 importMessage.style.display = 'block';
                 
+                setTimeout(() => {
+                    importMessage.style.display = 'none';
+                }, 3000);
+                
             } catch (error) {
-                importMessage.textContent = 'Error: ' + error.message;
+                importMessage.textContent = '❌ Error: ' + error.message;
                 importMessage.className = 'message error';
                 importMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    importMessage.style.display = 'none';
+                }, 5000);
             }
         });
         
         clearGamesBtn.addEventListener('click', function() {
-            if (confirm('Delete ALL games from storage?')) {
+            if (confirm('⚠️ Are you sure you want to delete ALL games from storage?')) {
                 currentGames = [];
                 saveGamesToStorage(currentGames);
-                importMessage.textContent = 'All games deleted';
+                importMessage.textContent = '✅ All games deleted from storage';
                 importMessage.className = 'message success';
                 importMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    importMessage.style.display = 'none';
+                }, 3000);
             }
         });
         
@@ -254,20 +300,52 @@ document.addEventListener('DOMContentLoaded', function() {
         function loadGamesFromStorage() {
             try {
                 const stored = localStorage.getItem('rb_games');
-                return stored ? JSON.parse(stored) : [];
-            } catch {
+                console.log("Raw storage:", stored);
+                
+                if (!stored || stored === 'null' || stored === 'undefined') {
+                    return [];
+                }
+                
+                const parsed = JSON.parse(stored);
+                console.log("Parsed games:", parsed);
+                
+                // Ensure it's an array
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                } else if (parsed && parsed.games && Array.isArray(parsed.games)) {
+                    return parsed.games;
+                } else {
+                    return [];
+                }
+                
+            } catch (error) {
+                console.error("Error loading from storage:", error);
                 return [];
             }
         }
         
         function saveGamesToStorage(games) {
+            console.log("Saving to storage:", games);
             localStorage.setItem('rb_games', JSON.stringify(games));
         }
         
-        function showMessage(text, type) {
-            messageElement.textContent = text;
-            messageElement.className = `message ${type}`;
-            messageElement.style.display = 'block';
+        function showMessage(text, type, elementId = 'message') {
+            const msgElement = document.getElementById(elementId);
+            if (msgElement) {
+                msgElement.textContent = text;
+                msgElement.className = `message ${type}`;
+                msgElement.style.display = 'block';
+            }
         }
+        
+        // Load any existing JSON from games.json for reference
+        fetch('games.json')
+            .then(response => response.json())
+            .then(data => {
+                if (data.games && data.games.length > 0) {
+                    console.log("Loaded from games.json:", data.games.length, "games");
+                }
+            })
+            .catch(err => console.log("No games.json or error:", err));
     }
 });
