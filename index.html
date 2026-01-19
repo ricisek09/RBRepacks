@@ -6,148 +6,89 @@
     <title>RBRepacks - Game Repacks</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .password-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .password-box {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 15px;
-            border: 3px solid #8a2be2;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .password-box h2 {
-            color: #8a2be2;
-            margin-bottom: 20px;
-        }
-        
-        .password-input {
-            width: 100%;
-            padding: 15px;
-            background: #121212;
-            border: 2px solid #2d2d2d;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        
-        .password-error {
-            color: #ff3333;
-            margin: 10px 0;
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <!-- Password Screen -->
-    <div id="passwordScreen" class="password-screen">
-        <div class="password-box">
-            <h2><i class="fas fa-lock"></i> Site Lock</h2>
-            <p style="color: #b0b0b0; margin-bottom: 20px;">Enter password to access RBRepacks</p>
-            <input type="password" id="sitePassword" class="password-input" placeholder="Enter password" autocomplete="off">
-            <button id="submitPassword" class="btn" style="background: #8a2be2; color: white; width: 100%; padding: 15px; font-size: 1.1rem; font-weight: bold;">
-                <i class="fas fa-unlock"></i> Enter Site
-            </button>
-            <div id="passwordError" class="password-error">
-                <i class="fas fa-exclamation-circle"></i> Wrong password!
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><span class="logo-accent">RB</span>Repacks</h1>
+                <p class="tagline">Premium Game Repacks Collection</p>
             </div>
+            
+            <!-- SEARCH -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search games...">
+                    <button id="searchBtn">Search</button>
+                </div>
+                <div class="filters">
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                        <option value="Action">Action</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Shooter">Shooter</option>
+                        <option value="Racing">Racing</option>
+                        <option value="Sports">Sports</option>
+                    </select>
+                    <select id="sortFilter">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="rating">Best Rated</option>
+                        <option value="title">A-Z</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- ADMIN LINK -->
+            <a href="admin.html" class="admin-link">
+                <i class="fas fa-plus"></i> Add Game
+            </a>
+        </div>
+    </header>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="container">
+            <span><i class="fas fa-gamepad"></i> Games: <span id="totalGames">0</span></span>
+            <span><i class="fas fa-hdd"></i> Size: <span id="totalSize">0 GB</span></span>
+            <span><i class="fas fa-calendar"></i> Updated: <span id="lastUpdated">-</span></span>
         </div>
     </div>
 
-    <!-- Main Content (hidden until password) -->
-    <div id="mainContent" style="display: none;">
-        <!-- Header -->
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <h1><span class="logo-accent">RB</span>Repacks</h1>
-                    <p class="tagline">Premium Game Repacks Collection</p>
-                </div>
-                
-                <!-- Search -->
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search games...">
-                        <button id="searchBtn">Search</button>
-                    </div>
-                    <div class="filters">
-                        <select id="genreFilter">
-                            <option value="">All Genres</option>
-                            <option value="Action">Action</option>
-                            <option value="RPG">RPG</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Shooter">Shooter</option>
-                        </select>
-                        <select id="sortFilter">
-                            <option value="newest">Newest First</option>
-                            <option value="rating">Best Rated</option>
-                            <option value="title">A-Z</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Admin Link -->
-                <a href="admin.html" class="admin-link">
-                    <i class="fas fa-plus"></i> Add Game
-                </a>
-            </div>
-        </header>
-
-        <!-- Stats -->
-        <div class="stats-bar">
-            <div class="container">
-                <span><i class="fas fa-gamepad"></i> Games: <span id="totalGames">0</span></span>
-                <span><i class="fas fa-hdd"></i> Size: <span id="totalSize">0 GB</span></span>
-                <span><i class="fas fa-calendar"></i> Updated: <span id="lastUpdated">-</span></span>
-            </div>
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <div class="games-grid" id="gamesContainer">
+            <!-- GAMES LOAD HERE -->
         </div>
+        
+        <!-- LOADING -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading games...</p>
+        </div>
+        
+        <!-- NO GAMES YET -->
+        <div id="noGames" class="no-results" style="display: block;">
+            <i class="fas fa-gamepad"></i>
+            <h3>No games yet</h3>
+            <p>Add your first game using the "Add Game" button above!</p>
+            <a href="admin.html" class="btn btn-download" style="margin-top: 20px;">
+                <i class="fas fa-plus"></i> Add First Game
+            </a>
+        </div>
+    </main>
 
-        <!-- Main -->
-        <main class="container">
-            <div class="games-grid" id="gamesContainer">
-                <!-- Games load here -->
-            </div>
-            
-            <div id="loading" class="loading">
-                <div class="spinner"></div>
-                <p>Loading games...</p>
-            </div>
-            
-            <div id="noGames" class="no-results">
-                <i class="fas fa-gamepad"></i>
-                <h3>No games yet</h3>
-                <p>Add your first game!</p>
-                <a href="admin.html" class="btn btn-download" style="margin-top: 20px;">
-                    <i class="fas fa-plus"></i> Add First Game
-                </a>
-            </div>
-        </main>
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 RBRepacks. Game repacks collection.</p>
+            <p class="disclaimer">This site contains links to game repacks. All trademarks belong to their owners.</p>
+        </div>
+    </footer>
 
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <p>&copy; 2024 RBRepacks</p>
-                <p class="disclaimer">Game repacks collection</p>
-            </div>
-        </footer>
-    </div>
-
-    <script src="main.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
