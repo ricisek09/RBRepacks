@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBRepacks Admin - Add Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .admin-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-purple);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--secondary-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .tag-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .tag-input input {
+            flex: 1;
+        }
+        
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background-color: rgba(138, 43, 226, 0.2);
+            color: var(--accent-light-purple);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag i {
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .btn-admin {
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-light-purple));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .btn-admin:hover {
+            transform: translateY(-3px);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: rgba(0, 204, 102, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .error {
+            background-color: rgba(255, 51, 51, 0.1);
+            color: #ff3333;
+            border: 1px solid #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><span class="logo-accent">RB</span>Repacks Admin</h1>
+                <p class="tagline">Add new game to collection</p>
+            </div>
+            <a href="index.html" class="admin-link">
+                <i class="fas fa-arrow-left"></i> Back to Main
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="admin-container">
+            <h2 class="admin-title">Add New Game</h2>
+            
+            <div id="message" class="message"></div>
+            
+            <form id="gameForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="title"><i class="fas fa-gamepad"></i> Game Title *</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="repacker"><i class="fas fa-user"></i> Repacker *</label>
+                        <input type="text" id="repacker" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="version"><i class="fas fa-code-branch"></i> Version</label>
+                        <input type="text" id="version" placeholder="e.g., 1.0 + DLC">
+                    </div>
+                    <div class="form-group">
+                        <label for="size"><i class="fas fa-hdd"></i> Size (GB) *</label>
+                        <input type="text" id="size" required placeholder="e.g., 57.8">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="releaseDate"><i class="fas fa-calendar"></i> Original Release Date</label>
+                        <input type="date" id="releaseDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="repackDate"><i class="fas fa-calendar-alt"></i> Repack Date</label>
+                        <input type="date" id="repackDate">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imageUrl"><i class="fas fa-image"></i> Cover Image URL *</label>
+                    <input type="url" id="imageUrl" required placeholder="https://example.com/game-cover.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="description" placeholder="Brief description of the game..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-tags"></i> Genres</label>
+                    <div class="tag-input">
+                        <input type="text" id="genreInput" placeholder="Add genre (press Enter)">
+                        <button type="button" id="addGenre" class="btn btn-details">Add</button>
+                    </div>
+                    <div id="genresContainer" class="tags-container"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rating"><i class="fas fa-star"></i> Rating (0-5)</label>
+                    <input type="number" id="rating" min="0" max="5" step="0.1" placeholder="4.5">
+                </div>
+                
+                <h3 style="color: var(--accent-purple); margin: 30px 0 15px;">Download Links</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="directLink"><i class="fas fa-download"></i> Direct Link</label>
+                        <input type="url" id="directLink" placeholder="https://example.com/download">
+                    </div>
+                    <div class="form-group">
+                        <label for="magnetLink"><i class="fas fa-magnet"></i> Magnet Link</label>
+                        <input type="url" id="magnetLink" placeholder="magnet:?xt=urn:btih:...">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="torrentLink"><i class="fas fa-file-torrent"></i> Torrent Link</label>
+                    <input type="url" id="torrentLink" placeholder="https://example.com/torrent">
+                </div>
+                
+                <button type="submit" class="btn-admin">
+                    <i class="fas fa-plus"></i> Add Game to Collection
+                </button>
+            </form>
+            
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Return to main page
+            </a>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>
