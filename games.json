@@ -1,22 +1,3 @@
 {
-  "games": [
-    {
-      "id": 1,
-      "title": "Test Game",
-      "repacker": "FitGirl",
-      "version": "1.0",
-      "releaseDate": "2024-01-01",
-      "size": "50 GB",
-      "description": "This is a test game for RBRepacks",
-      "imageUrl": "https://via.placeholder.com/300x180/1a1a1a/8a2be2?text=Test+Game",
-      "downloadLinks": {
-        "direct": "#",
-        "magnet": "#",
-        "torrent": "#"
-      },
-      "genre": ["Action", "Test"],
-      "rating": 4.5,
-      "repackDate": "2024-01-10"
-    }
-  ]
+  "games": []
 }
