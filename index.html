@@ -3,84 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RBRepacks - Game Repacks Collection</title>
+    <title>RBRepacks - Game Repacks</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- HEADER -->
     <header>
         <div class="container">
             <div class="logo">
                 <h1><span class="logo-accent">RB</span>Repacks</h1>
-                <p class="tagline">High quality game repacks</p>
+                <p class="tagline">Premium Game Repacks Collection</p>
             </div>
             
-            <!-- Search Bar -->
+            <!-- SEARCH -->
             <div class="search-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search games by title, genre, repacker...">
+                    <input type="text" id="searchInput" placeholder="Search games...">
                     <button id="searchBtn">Search</button>
                 </div>
                 <div class="filters">
                     <select id="genreFilter">
                         <option value="">All Genres</option>
-                        <option value="RPG">RPG</option>
                         <option value="Action">Action</option>
+                        <option value="RPG">RPG</option>
                         <option value="Adventure">Adventure</option>
+                        <option value="Shooter">Shooter</option>
+                        <option value="Racing">Racing</option>
+                        <option value="Sports">Sports</option>
                     </select>
                     <select id="sortFilter">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
-                        <option value="rating">Highest Rated</option>
-                        <option value="title">Title A-Z</option>
+                        <option value="rating">Best Rated</option>
+                        <option value="title">A-Z</option>
                     </select>
                 </div>
             </div>
             
-            <!-- Admin Link (can be hidden in production or password protected) -->
+            <!-- ADMIN LINK -->
             <a href="admin.html" class="admin-link">
                 <i class="fas fa-plus"></i> Add Game
             </a>
         </div>
     </header>
 
-    <!-- Game Stats -->
+    <!-- STATS -->
     <div class="stats-bar">
         <div class="container">
-            <span><i class="fas fa-gamepad"></i> Total Games: <span id="totalGames">0</span></span>
-            <span><i class="fas fa-hdd"></i> Total Size: <span id="totalSize">0 GB</span></span>
-            <span><i class="fas fa-calendar"></i> Last Updated: <span id="lastUpdated">-</span></span>
+            <span><i class="fas fa-gamepad"></i> Games: <span id="totalGames">0</span></span>
+            <span><i class="fas fa-hdd"></i> Size: <span id="totalSize">0 GB</span></span>
+            <span><i class="fas fa-calendar"></i> Updated: <span id="lastUpdated">-</span></span>
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT -->
     <main class="container">
-        <!-- Games Grid -->
         <div class="games-grid" id="gamesContainer">
-            <!-- Games will be loaded here by JavaScript -->
+            <!-- GAMES LOAD HERE -->
         </div>
         
-        <!-- Loading Indicator -->
+        <!-- LOADING -->
         <div id="loading" class="loading">
             <div class="spinner"></div>
             <p>Loading games...</p>
         </div>
         
-        <!-- No Results Message -->
-        <div id="noResults" class="no-results" style="display: none;">
+        <!-- NO GAMES YET -->
+        <div id="noGames" class="no-results" style="display: block;">
             <i class="fas fa-gamepad"></i>
-            <h3>No games found</h3>
-            <p>Try different search terms or filters</p>
+            <h3>No games yet</h3>
+            <p>Add your first game using the "Add Game" button above!</p>
+            <a href="admin.html" class="btn btn-download" style="margin-top: 20px;">
+                <i class="fas fa-plus"></i> Add First Game
+            </a>
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 RBRepacks. All game repacks are from trusted sources.</p>
-            <p class="disclaimer">This site only provides links to publicly available repacks. All trademarks belong to their respective owners.</p>
+            <p>&copy; 2024 RBRepacks. Game repacks collection.</p>
+            <p class="disclaimer">This site contains links to game repacks. All trademarks belong to their owners.</p>
         </div>
     </footer>
 
