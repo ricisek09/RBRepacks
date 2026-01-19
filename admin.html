@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Admin specific styles */
         .admin-wrapper {
             min-height: 100vh;
             background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
@@ -20,7 +19,7 @@
             background: #1a1a1a;
             border-radius: 20px;
             padding: 40px;
-            border: 3px solid #8a2be2;
+            border: 2px solid #8a2be2;
             box-shadow: 0 20px 50px rgba(138, 43, 226, 0.3);
         }
         
@@ -48,9 +47,6 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #2d2d2d;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .form-row {
@@ -68,14 +64,6 @@
             color: #ffffff;
             margin-bottom: 8px;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .required::after {
-            content: " *";
-            color: #ff3333;
         }
         
         .form-group input,
@@ -88,7 +76,7 @@
             border-radius: 10px;
             color: #ffffff;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
         
         .form-group input:focus,
@@ -104,14 +92,11 @@
             resize: vertical;
         }
         
-        .tip {
-            color: #888;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            font-style: italic;
+        .required::after {
+            content: " *";
+            color: #ff3333;
         }
         
-        /* Tag manager */
         .tag-manager {
             background: #121212;
             border: 2px solid #2d2d2d;
@@ -148,7 +133,7 @@
             border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-weight: bold;
         }
         
@@ -156,30 +141,15 @@
             cursor: pointer;
             color: #ff3333;
             font-size: 1.2rem;
-            background: none;
-            border: none;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        /* Message */
         .message {
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
             text-align: center;
             font-weight: bold;
             display: none;
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         
         .message.success {
@@ -194,7 +164,6 @@
             border: 2px solid #ff3333;
         }
         
-        /* Buttons */
         .buttons-row {
             display: flex;
             gap: 20px;
@@ -211,11 +180,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            transition: 0.3s;
         }
         
         .btn-submit:hover {
@@ -233,13 +198,9 @@
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             text-decoration: none;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
         
         .btn-back:hover {
@@ -247,223 +208,163 @@
             color: #8a2be2;
         }
         
-        /* Password screen */
-        .password-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .password-box {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 15px;
-            border: 3px solid #8a2be2;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .password-box h2 {
-            color: #8a2be2;
-            margin-bottom: 20px;
-        }
-        
-        .password-input {
-            width: 100%;
-            padding: 15px;
-            background: #121212;
-            border: 2px solid #2d2d2d;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        
-        .password-error {
-            color: #ff3333;
-            margin: 10px 0;
-            display: none;
+        .tip {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <!-- Admin Password Screen -->
-    <div id="adminPasswordScreen" class="password-screen">
-        <div class="password-box">
-            <h2><i class="fas fa-lock"></i> Admin Access</h2>
-            <p style="color: #b0b0b0; margin-bottom: 20px;">Enter admin password to add games</p>
-            <input type="password" id="adminPassword" class="password-input" placeholder="Enter admin password" autocomplete="off">
-            <button id="submitAdminPassword" class="btn-submit" style="width: 100%;">
-                <i class="fas fa-unlock"></i> Enter Admin
-            </button>
-            <div id="adminPasswordError" class="password-error">
-                <i class="fas fa-exclamation-circle"></i> Wrong password!
+    <div class="admin-wrapper">
+        <div class="admin-container">
+            <!-- HEADER -->
+            <div class="admin-header">
+                <h1><i class="fas fa-plus-circle"></i> Add New Game</h1>
+                <p>Fill the form below to add a game to RBRepacks</p>
             </div>
-            <a href="index.html" style="display: block; margin-top: 20px; color: #8a2be2;">
-                <i class="fas fa-arrow-left"></i> Back to main site
-            </a>
-        </div>
-    </div>
-
-    <!-- Admin Content (hidden until password) -->
-    <div id="adminContent" style="display: none;">
-        <div class="admin-wrapper">
-            <div class="admin-container">
-                <!-- Header -->
-                <div class="admin-header">
-                    <h1><i class="fas fa-plus-circle"></i> Add New Game</h1>
-                    <p>Fill the form below to add a game to RBRepacks</p>
+            
+            <!-- MESSAGE -->
+            <div id="message" class="message"></div>
+            
+            <!-- FORM -->
+            <form id="gameForm">
+                <!-- BASIC INFO -->
+                <div class="form-section">
+                    <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Game Title</label>
+                            <input type="text" id="title" required placeholder="Cyberpunk 2077">
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Repacker Name</label>
+                            <input type="text" id="repacker" required placeholder="FitGirl, DODI, etc.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Version</label>
+                            <input type="text" id="version" required placeholder="1.5 + DLC">
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Size (GB)</label>
+                            <input type="text" id="size" required placeholder="57.8">
+                            <div class="tip">Just the number, "GB" will be added automatically</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Original Release Date</label>
+                            <input type="date" id="releaseDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Repack Date</label>
+                            <input type="date" id="repackDate" value="">
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Message -->
-                <div id="message" class="message"></div>
+                <!-- DESCRIPTION & IMAGE -->
+                <div class="form-section">
+                    <h3><i class="fas fa-align-left"></i> Description & Media</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Cover Image URL</label>
+                            <input type="url" id="imageUrl" required placeholder="https://example.com/game-cover.jpg">
+                            <div class="tip">Find game covers on Google Images or Steam</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Game Description</label>
+                            <textarea id="description" placeholder="Brief description of the game..."></textarea>
+                        </div>
+                    </div>
+                </div>
                 
-                <!-- Form -->
-                <form id="gameForm">
-                    <!-- Basic Info -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required"><i class="fas fa-gamepad"></i> Game Title</label>
-                                <input type="text" id="title" required placeholder="Cyberpunk 2077">
-                            </div>
-                            <div class="form-group">
-                                <label class="required"><i class="fas fa-user"></i> Repacker Name</label>
-                                <input type="text" id="repacker" required placeholder="FitGirl, DODI, etc.">
-                            </div>
+                <!-- GENRES -->
+                <div class="form-section">
+                    <h3><i class="fas fa-tags"></i> Genres</h3>
+                    
+                    <div class="tag-manager">
+                        <div class="tag-input-row">
+                            <input type="text" id="genreInput" placeholder="Add genre (Action, RPG, etc.)">
+                            <button type="button" id="addGenreBtn" class="btn btn-download">Add</button>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required"><i class="fas fa-code-branch"></i> Version</label>
-                                <input type="text" id="version" required placeholder="1.5 + DLC">
-                            </div>
-                            <div class="form-group">
-                                <label class="required"><i class="fas fa-hdd"></i> Size (GB)</label>
-                                <input type="text" id="size" required placeholder="57.8">
-                                <div class="tip">Just the number, "GB" will be added automatically</div>
-                            </div>
+                        <div id="genresContainer" class="tags-container">
+                            <!-- Tags appear here -->
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Original Release Date</label>
-                                <input type="date" id="releaseDate">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fas fa-calendar-alt"></i> Repack Date</label>
-                                <input type="date" id="repackDate" value="">
-                            </div>
+                    </div>
+                </div>
+                
+                <!-- RATING -->
+                <div class="form-section">
+                    <h3><i class="fas fa-star"></i> Rating & Details</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Rating (0-5)</label>
+                            <select id="rating">
+                                <option value="5">★★★★★ (5/5)</option>
+                                <option value="4.5">★★★★½ (4.5/5)</option>
+                                <option value="4" selected>★★★★☆ (4/5)</option>
+                                <option value="3.5">★★★½☆ (3.5/5)</option>
+                                <option value="3">★★★☆☆ (3/5)</option>
+                                <option value="2.5">★★½☆☆ (2.5/5)</option>
+                                <option value="2">★★☆☆☆ (2/5)</option>
+                                <option value="1.5">★½☆☆☆ (1.5/5)</option>
+                                <option value="1">★☆☆☆☆ (1/5)</option>
+                                <option value="0.5">½☆☆☆☆ (0.5/5)</option>
+                                <option value="0">☆☆☆☆☆ (0/5)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DOWNLOAD LINKS -->
+                <div class="form-section">
+                    <h3><i class="fas fa-download"></i> Download Links</h3>
+                    <div class="tip">Add at least one download link</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Direct Download URL</label>
+                            <input type="url" id="directLink" placeholder="https://mega.nz/file/...">
                         </div>
                     </div>
                     
-                    <!-- Description & Image -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-align-left"></i> Description & Media</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required"><i class="fas fa-image"></i> Cover Image URL</label>
-                                <input type="url" id="imageUrl" required placeholder="https://example.com/game-cover.jpg">
-                                <div class="tip">Find game covers on Google Images or Steam</div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-align-left"></i> Game Description</label>
-                                <textarea id="description" placeholder="Brief description of the game..."></textarea>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Magnet Link</label>
+                            <input type="text" id="magnetLink" placeholder="magnet:?xt=urn:btih:...">
                         </div>
                     </div>
                     
-                    <!-- Genres -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-tags"></i> Genres</h3>
-                        
-                        <div class="tag-manager">
-                            <div class="tag-input-row">
-                                <input type="text" id="genreInput" placeholder="Add genre (Action, RPG, etc.)">
-                                <button type="button" id="addGenreBtn" class="btn btn-download">Add</button>
-                            </div>
-                            <div id="genresContainer" class="tags-container">
-                                <!-- Tags will appear here -->
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Torrent URL</label>
+                            <input type="url" id="torrentLink" placeholder="https://example.com/file.torrent">
                         </div>
                     </div>
-                    
-                    <!-- Rating -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-star"></i> Rating & Details</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-star"></i> Rating (0-5)</label>
-                                <select id="rating">
-                                    <option value="5">★★★★★ (5/5)</option>
-                                    <option value="4.5">★★★★½ (4.5/5)</option>
-                                    <option value="4" selected>★★★★☆ (4/5)</option>
-                                    <option value="3.5">★★★½☆ (3.5/5)</option>
-                                    <option value="3">★★★☆☆ (3/5)</option>
-                                    <option value="2.5">★★½☆☆ (2.5/5)</option>
-                                    <option value="2">★★☆☆☆ (2/5)</option>
-                                    <option value="1.5">★½☆☆☆ (1.5/5)</option>
-                                    <option value="1">★☆☆☆☆ (1/5)</option>
-                                    <option value="0.5">½☆☆☆☆ (0.5/5)</option>
-                                    <option value="0">☆☆☆☆☆ (0/5)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Download Links -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-download"></i> Download Links</h3>
-                        <div class="tip">Add at least one download link</div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-link"></i> Direct Download URL</label>
-                                <input type="url" id="directLink" placeholder="https://mega.nz/file/...">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-magnet"></i> Magnet Link</label>
-                                <input type="text" id="magnetLink" placeholder="magnet:?xt=urn:btih:...">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-file-torrent"></i> Torrent URL</label>
-                                <input type="url" id="torrentLink" placeholder="https://example.com/file.torrent">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Buttons -->
-                    <div class="buttons-row">
-                        <a href="index.html" class="btn-back">
-                            <i class="fas fa-arrow-left"></i> Back to Site
-                        </a>
-                        <button type="submit" class="btn-submit">
-                            <i class="fas fa-plus-circle"></i> Add Game to Collection
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <!-- BUTTONS -->
+                <div class="buttons-row">
+                    <a href="index.html" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Back to Site
+                    </a>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-plus-circle"></i> Add Game to Collection
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
