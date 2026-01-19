@@ -16,7 +16,27 @@
       ],
       "rating": 4,
       "downloadLinks": {
-        "direct": "http://adfoc.us/8750111",
+        "direct": "https://buzzheavier.com/i6q4u0y7bvao",
+        "magnet": null,
+        "torrent": null
+      }
+    },
+    {
+      "id": 1768847229633,
+      "title": "CrosshairX",
+      "repacker": "Ricisek",
+      "version": "Build 20938981",
+      "size": "0.13 GB",
+      "description": "Crosshair X is a popular Windows application that lets PC gamers add customizable, permanent crosshair overlays to virtually any game, enhancing aim consistency by letting users design their own or use community-made designs with adjustable colors, shapes, sizes, and opacity, integrating safely via the Xbox Game Bar for fullscreen support without impacting game performance.",
+      "imageUrl": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1366800/a0a1b41585124c5ea6a270c433fdd5b5f96cf9c8/capsule_616x353.jpg?t=1767906506",
+      "releaseDate": "2020-06-01",
+      "repackDate": "2026-01-19",
+      "genre": [
+        "Utility"
+      ],
+      "rating": 4.5,
+      "downloadLinks": {
+        "direct": "https://lootdest.org/s?7sJae3MU",
         "magnet": null,
         "torrent": null
       }
