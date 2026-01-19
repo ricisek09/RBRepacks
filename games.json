@@ -1,3 +1,22 @@
 {
-  "games": []
+  "games": [
+    {
+      "id": 1705588800000,
+      "title": "Cyberpunk 2077",
+      "repacker": "FitGirl",
+      "version": "2.1 + Phantom Liberty",
+      "size": "57.8 GB",
+      "description": "Open-world action RPG set in Night City",
+      "imageUrl": "https://image.api.playstation.com/vulcan/ap/rnd/202309/0119/26d2d6dc27f7064bd4b59e9a4b4c4d7b5f8f2ef5f69bcd27.jpg",
+      "releaseDate": "2023-12-05",
+      "repackDate": "2024-01-10",
+      "genre": ["RPG", "Action", "Open World"],
+      "rating": 4.5,
+      "downloadLinks": {
+        "direct": "https://example.com/cyberpunk",
+        "magnet": "magnet:?xt=urn:btih:EXAMPLE123",
+        "torrent": "https://example.com/cyberpunk.torrent"
+      }
+    }
+  ]
 }
