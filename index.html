@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBRepacks - Game Repacks Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><span class="logo-accent">RB</span>Repacks</h1>
+                <p class="tagline">High quality game repacks</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search games by title, genre, repacker...">
+                    <button id="searchBtn">Search</button>
+                </div>
+                <div class="filters">
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Action">Action</option>
+                        <option value="Adventure">Adventure</option>
+                    </select>
+                    <select id="sortFilter">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="title">Title A-Z</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Admin Link (can be hidden in production or password protected) -->
+            <a href="admin.html" class="admin-link">
+                <i class="fas fa-plus"></i> Add Game
+            </a>
+        </div>
+    </header>
+
+    <!-- Game Stats -->
+    <div class="stats-bar">
+        <div class="container">
+            <span><i class="fas fa-gamepad"></i> Total Games: <span id="totalGames">0</span></span>
+            <span><i class="fas fa-hdd"></i> Total Size: <span id="totalSize">0 GB</span></span>
+            <span><i class="fas fa-calendar"></i> Last Updated: <span id="lastUpdated">-</span></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Games Grid -->
+        <div class="games-grid" id="gamesContainer">
+            <!-- Games will be loaded here by JavaScript -->
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading games...</p>
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <i class="fas fa-gamepad"></i>
+            <h3>No games found</h3>
+            <p>Try different search terms or filters</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 RBRepacks. All game repacks are from trusted sources.</p>
+            <p class="disclaimer">This site only provides links to publicly available repacks. All trademarks belong to their respective owners.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
