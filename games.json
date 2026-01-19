@@ -1,0 +1,33 @@
+{
+  "games": [
+    {
+      "id": 1,
+      "title": "Cyberpunk 2077",
+      "repacker": "FitGirl",
+      "version": "2.1 + Phantom Liberty",
+      "releaseDate": "2023-12-05",
+      "size": "57.8 GB",
+      "description": "Action RPG in an open world. The story takes place in Night City.",
+      "imageUrl": "https://example.com/cyberpunk-cover.jpg",
+      "downloadLinks": {
+        "magnet": "magnet:?xt=urn:btih:...",
+        "direct": "https://example.com/download",
+        "torrent": "https://example.com/torrent"
+      },
+      "genre": ["RPG", "Action", "Open World"],
+      "rating": 4.5,
+      "language": ["English", "Russian", "Polish"],
+      "originalSize": "70 GB",
+      "compressedSize": "57.8 GB",
+      "repackDate": "2023-12-10",
+      "features": ["DLC Included", "Selective Download", "Bonus Content"],
+      "systemRequirements": {
+        "os": "Windows 10",
+        "processor": "Intel Core i7-6700",
+        "memory": "16 GB RAM",
+        "graphics": "NVIDIA GeForce GTX 1060",
+        "storage": "70 GB available space"
+      }
+    }
+  ]
+}
