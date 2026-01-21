@@ -60,7 +60,9 @@
         "direct": "https://loot-link.com/s?tSQjvToz",
         "magnet": null,
         "torrent": null
-       {
+      }
+    },
+    {
       "id": 1769008861106,
       "title": "KovaaK's Aim Trainer",
       "repacker": "Ricisek",
@@ -81,5 +83,5 @@
         "torrent": null
       }
     }
-  }
+  ]
 }
