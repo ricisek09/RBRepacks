@@ -1,86 +1,23 @@
 {
   "games": [
     {
-      "id": 1768827221434,
-      "title": "Geometry Dash",
-      "repacker": "Ricisek",
-      "version": "(v2.2074a)",
-      "size": "0.3 GB",
-      "description": "Geometry Dash is a rhythm-based action platformer where players control a geometric icon, jumping, flying, and flipping through challenging, auto-scrolling levels to a synchronized soundtrack, using simple one-touch controls while avoiding obstacles like spikes, with deep customization and a powerful level editor for user-created content.",
-      "imageUrl": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/322170/capsule_616x353.jpg?t=1703006148",
-      "releaseDate": "2013-08-13",
-      "repackDate": "2026-01-19",
-      "genre": [
-        "Adventure",
-        "Music"
-      ],
-      "rating": 4,
-      "downloadLinks": {
-        "direct": "https://buzzheavier.com/i6q4u0y7bvao",
-        "magnet": null,
-        "torrent": null
-      }
-    },
-    {
-      "id": 1768847229633,
-      "title": "CrosshairX",
-      "repacker": "Ricisek",
-      "version": "Build 20938981",
-      "size": "0.13 GB",
-      "description": "Crosshair X is a popular Windows application that lets PC gamers add customizable, permanent crosshair overlays to virtually any game, enhancing aim consistency by letting users design their own or use community-made designs with adjustable colors, shapes, sizes, and opacity, integrating safely via the Xbox Game Bar for fullscreen support without impacting game performance.",
-      "imageUrl": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1366800/a0a1b41585124c5ea6a270c433fdd5b5f96cf9c8/capsule_616x353.jpg?t=1767906506",
-      "releaseDate": "2020-06-01",
-      "repackDate": "2026-01-19",
-      "genre": [
-        "Utility"
-      ],
-      "rating": 4.5,
-      "downloadLinks": {
-        "direct": "https://lootdest.org/s?7sJae3MU",
-        "magnet": null,
-        "torrent": null
-      }
-    },
-    {
-      "id": 1768905892502,
-      "title": "Roblox Hack Executor Solara",
-      "repacker": "Ricisek",
-      "version": "New",
-      "size": "0.08 GB",
-      "description": "Solara Executor is a Free third-party software tool designed to execute custom Lua scripts within Roblox, functioning as an \"exploit\" or modding tool to alter gameplay mechanics, automate tasks, or unlock hidden features. It is marketed as a high-performance, user-friendly tool for Roblox users, developers, and creators, primarily aiming to provide a competitive advantage in various games.",
-      "imageUrl": "https://media.licdn.com/dms/image/sync/v2/D5627AQEZ1F10aVhsTA/articleshare-shrink_800/articleshare-shrink_800/0/1729405568828?e=2147483647&v=beta&t=uWPKG3zkcbLpYoECLYWVG-MTCjSkRHV-Pz2CR-4EM5I",
-      "releaseDate": "2026-01-01",
-      "repackDate": "2026-01-20",
-      "genre": [
-        "Cheat",
-        "Roblox"
-      ],
-      "rating": 5,
-      "downloadLinks": {
-        "direct": "https://loot-link.com/s?tSQjvToz",
-        "magnet": null,
-        "torrent": null
-      }
-    },
-    {
-      "id": 1769008861106,
-      "title": "KovaaK's Aim Trainer",
+      "id": 1705588800000,
+      "title": "KovaaK's",
       "repacker": "Ricisek",
       "version": "v3.7.7",
-      "size": "2.7 GB",
-      "description": "KovaaK's (often referred to as KovaaK's FPS Aim Trainer) is a popular, highly customizable software tool designed to train and improve mechanical aiming skills for first-person shooter (FPS) and third-person shooter (TPS) games. It is widely used by professional gamers and streamers to refine skills such as tracking, flicking, and target switching.",
-      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/824270/header.jpg?t=1736457082",
-      "releaseDate": "2018-04-03",
-      "repackDate": "2026-01-21",
+      "size": "3",
+      "description": "KovaaK's is a highly popular, community-driven aim trainer for PC, designed to improve mechanical aiming skills for first-person (FPS) and third-person (TPS) shooter games through extensive customization and thousands of user-created scenarios, offering detailed tracking, flicking, and click-timing drills with cloned game physics for authentic feel, used by pros to build muscle memory and consistency across various titles like Valorant, Fortnite, and CS:GO",
+      "imageUrl": "https://shared.steamstatic.com/store_item_assets/steam/apps/824270/header.jpg?t=1736457082",
+      "releaseDate": "2019-06-01",
+      "repackDate": "2024-01-10",
       "genre": [
         "Action",
-        "Utility"
       ],
       "rating": 4.5,
       "downloadLinks": {
         "direct": "https://buzzheavier.com/0ydfih0478b4",
-        "magnet": null,
-        "torrent": null
+        "magnet": "magnet:?xt=urn:btih:EXAMPLE123",
+        "torrent": "https://example.com/cyberpunk.torrent"
       }
     }
   ]
